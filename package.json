@@ -1,0 +1,21 @@
+{
+  "name": "agora",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "mysql": "^2.15.0",
+    "npm": "^6.1.0",
+    "util": "^0.11.0"
+  },
+  "devDependencies": {},
+  "description": "Projecto to evaluate the bias level towards reporting policy issues"
+}
