@@ -17,5 +17,5 @@
     "util": "^0.11.0"
   },
   "devDependencies": {},
-  "description": "Projecto to evaluate the bias level towards reporting policy issues"
+  "description": "Create a database with sentences's sentiment"
 }

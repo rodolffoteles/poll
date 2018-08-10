@@ -3,7 +3,7 @@ html {
 	font-size: 16px;
 }
 
-body {
+body, p{
 	padding: 0;
     margin: 0;
 	
@@ -15,8 +15,8 @@ body {
 	padding: 20px;
 	box-sizing: border-box;
 	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+	justify-content: center;
+	align-items: center;
 	overflow-x: hidden;
 	max-width: 1400px;
 	height: 100%;
@@ -58,23 +58,29 @@ body {
 	width: 100%;
 }
 
+.instructions{
+	color: #a7a7a7;
+	margin-top: 40px;
+	margin-bottom: 10px;
+}
+
 .slider-and-button{
 	width: 100%;
 	max-width: 500px;
+	margin-top: 25px;
+	
 }
 
 .slider-container{
 	position: relative;
-	margin-top: 20px;
 	display: flex;
 	flex-direction: column;
 }
 
-.button-container{
-	position: relative;
-	margin-top: 60px;
-	display: flex;
-	flex-direction: column;
+.slider-output{
+	position: absolute;   
+	top: -22px; 
+	transform: translateX(-50%);
 }
 
 .slider {
@@ -105,10 +111,18 @@ body {
     cursor: pointer; 
 }
 
+.button-container{
+	position: relative;
+	margin-top: 60px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
 .button{
 	background-color: #262228;
 	color: #ffffff;
-    width: 100%;
+    width: 150px;
     height: 40px;
     border: none;
     border-radius: 25px;
