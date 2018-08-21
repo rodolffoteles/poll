@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-	let row = await query.getJoinOnId();
+	let row = await query.getSentenceAleatory();
 	res.render('sentence', {text: row.Sentence, id: row.NewId});
 });
 

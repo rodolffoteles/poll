@@ -1,12 +1,11 @@
 {
-  "name": "agora",
-  "version": "1.0.0",
+  "name": "poll",
+  "version": "0.0.3",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
+  "author": "Rodolffo Teles",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -17,5 +16,5 @@
     "util": "^0.11.0"
   },
   "devDependencies": {},
-  "description": "Create a database with sentences's sentiment"
+  "description": "Website to create a database with sentiment of portuguese sentences"
 }

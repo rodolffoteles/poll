@@ -111,22 +111,19 @@ body, p{
     cursor: pointer; 
 }
 
-.button-container{
+.buttons-container{
 	position: relative;
-	margin-top: 60px;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: center;
 }
 
 .button{
-	background-color: #262228;
 	color: #ffffff;
-    width: 150px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border: none;
-    border-radius: 25px;
-    text-transform: uppercase;
-    font-family: Open Sans,sans-serif;
+    margin: 0 5px;
     text-align: center;
+    cursor: pointer;
 }
