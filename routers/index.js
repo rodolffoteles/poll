@@ -4,12 +4,15 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
 	let row = await query.getSentenceAleatory();
-	res.render('sentence', {text: row.Sentence, id: row.NewId});
+	res.render('sentence', {text: row.Sentence, id: row.Id});
 });
 
-router.post('/submit', async (req, res) => {
+router.post('/vote', async (req, res) => {
+	let row = await query.getSentenceAleatory(); 
+	res.send(row);
+
+	// TO DO: request validation
 	query.insertVote(req.body.sentenceId, req.body.note);
-	res.redirect('/');
 });
 
 module.exports = router;

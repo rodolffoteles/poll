@@ -3,36 +3,37 @@
 	<title>Ágora</title>
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Enquete online para ajudar um projeto de pesquisa na contrução de um banco de dados com sentimento de frases.">
 </head>
 
 <html>
 	<body>
 		<div class="page-wrap">
-			<div class="card-and-slider">
+			<div class="card-and-buttons">
 				<div class="card-container">
-					<div class="card">
-						<div class="center"><p><%= text %></p></div> 
+					<div class="card active" id="<%= id %>">
+						<p><%= text %></p>
+					</div>
+
+					<div class="card right-inactive" id="<%= id %>">
+						<p><%= text %></p>
 					</div>
 				</div>
 
-				<p class="instructions" id="instructions"> Selecione o nível de sentimento dessa frase</p>
+				<p class="instructions"> Selecione o nível de sentimento dessa frase</p>
 
-				<div class ="slider-and-button">
-					<form action="/submit" method="post">
-					<input type="hidden" name="sentenceId" value="<%= id %>">
-					<div class="slider-container">
-						<output for="slider" class="slider-output" id="slider-output" ></output>
-						<input type="range" name="note" id="slider" min="-1" max="1" step="0.01" class="slider">
-					</div>
-					<div class="button-container">
-						<button type="submit" class="button center">Enviar</button>
-					</div>
-				</form>
+				<div class="buttons-container">
+					<input type="hidden" id="sentenceId" value="<%= id %>">			
+					<input type="image" src="/images/positive.png" alt="Positive" class="button" value="1">
+					<input type="image" src="/images/semi-positive.png" alt="Semi-positive" class="button" value="0.5">
+					<input type="image" src="/images/neutral.png" alt="Neutral" class="button" value="0">
+					<input type="image" src="/images/semi-negative.png" alt="Semi-negative" class="button" value="-0.5">
+					<input type="image" src="/images/negative.png" alt="Negative" class="button" value="-1">	
 				</div>
-				
 			</div>
 		</div>
 
-		<script src="/scripts/slider.js"></script>
+		<script src="/scripts/jquery-3.3.1.min.js"></script>
+		<script src="/scripts/animate.js"></script>
 	</body>
 </html>
