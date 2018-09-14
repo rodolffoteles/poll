@@ -1,11 +1,23 @@
 $(function(){
-	$('input').on('click', inputHandler);
+	$('.buttons-container input.button').on('click', inputHandler);
 
-	function inputHandler() {
+	$(document).ajaxError(function(){
+    	alert("An error occurred!");
+	});
+
+	var $voteSection = $('#vote');
+	var $tutorialSection = $('#tutorial');
+	var $arrowIcon = $('#arrow-icon');
+	var $tutorialIcon = $('#tutorial-icon');
+
+	$tutorialIcon.on('click', showTutorial);
+	$arrowIcon.on('click', showVote);
+
+	function inputHandler(){
 		var $fisrtCard = $('.card:nth-child(1)');
 		var $secondCard = $('.card:nth-child(2)');
 
-		var id = $fisrtCard.attr('id').toString();
+		var id = $fisrtCard.children('input').attr('value').toString();
 		var note = $(this).val().toString();
 
 		switchCards($fisrtCard, $secondCard);
@@ -27,9 +39,9 @@ $(function(){
 		$(this).remove();
 	}
 
-	function submitVote(userNote, id){
+	function submitVote(score, id){
 		$.post('vote', {
-			note: userNote,
+			note: score,
 			sentenceId: id
 		}, createNewCard);
 	}
@@ -38,11 +50,30 @@ $(function(){
 		var $newCard = $('<div></div>');
 
 		$newCard
-			.text(data.Sentence)
 			.addClass('card right-inactive')
-			.attr('id', data.Id);
-
+			.append($('<p></p>').text(
+				data.Sentence))
+			.append($('<input>').attr({
+			    type: 'hidden',
+			    name: 'sentenceId',
+			    value: data.Id
+			}));
+			
 		$('.card-container').append($newCard);
+	}
+
+	function showTutorial(){
+		$arrowIcon.removeClass('hidden');
+		$tutorialIcon.addClass('hidden');
+		$tutorialSection.removeClass('none');
+		$voteSection.addClass('none');	
+	}
+
+	function showVote(){
+		$arrowIcon.addClass('hidden');
+		$tutorialIcon.removeClass('hidden');
+		$tutorialSection.addClass('none');
+		$voteSection.removeClass('none');	
 	}
 
 });

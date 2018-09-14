@@ -3,34 +3,65 @@
 	<title>Ágora</title>
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="/images/semi-positive2.png">
 	<meta name="description" content="Enquete online para ajudar um projeto de pesquisa na contrução de um banco de dados com sentimento de frases.">
 </head>
 
 <html>
 	<body>
 		<div class="page-wrap">
-			<div class="card-and-buttons">
-				<div class="card-container">
-					<div class="card active" id="<%= id %>">
-						<p><%= text %></p>
-					</div>
-
-					<div class="card right-inactive" id="<%= id %>">
-						<p><%= text %></p>
-					</div>
-				</div>
-
-				<p class="instructions"> Selecione o nível de sentimento dessa frase</p>
-
-				<div class="buttons-container">
-					<input type="hidden" id="sentenceId" value="<%= id %>">			
-					<input type="image" src="/images/positive.png" alt="Positive" class="button" value="1">
-					<input type="image" src="/images/semi-positive.png" alt="Semi-positive" class="button" value="0.5">
-					<input type="image" src="/images/neutral.png" alt="Neutral" class="button" value="0">
-					<input type="image" src="/images/semi-negative.png" alt="Semi-negative" class="button" value="-0.5">
-					<input type="image" src="/images/negative.png" alt="Negative" class="button" value="-1">	
-				</div>
+			<div class="top">
+				<input type="image" src="/images/arrow.png" id="arrow-icon" class="hidden">
+				<input type="image" src="/images/question-mark.png" id="tutorial-icon">
 			</div>
+
+			<section id="vote">
+				<div class="vote-container">
+					<div class="card-container">
+						<div class="card active">
+							<p><%= firstSentence %></p>
+							<input type="hidden" name="sentenceId" value="<%= firstId %>">
+						</div>
+
+						<div class="card right-inactive">
+							<p><%= secondSentence %></p>
+							<input type="hidden" name="sentenceId" value="<%= secondId %>">
+						</div>
+					</div>
+
+					<p class="instructions"> Selecione o nível de sentimento dessa frase</p>
+
+					<div class="buttons-container">		
+						<input type="image" src="/images/semi-positive2.png" alt="Positiva" title="Positiva" class="button" value="1">
+						<input type="image" src="/images/neutral3.png" alt="Neutra" title="Neutra" class="button" value="0">
+						<input type="image" src="/images/semi-negative2.png" alt="Negativa" title="Negativa" class="button" value="-1">	
+					</div>
+				</div>
+			</section>
+
+			<section class="none" id="tutorial">
+				<div class="tutorial-container">
+					<div class="tutorial-text">
+						<p>Cada cartão contém uma frase que deverá ser classificada segundo as cinco opções abaixo. Tente identificar nela os elementos que costumam indicar o posicionamento do autor, como adjetivos.</p>
+					</div>
+
+					<div class="tutorial-images">
+						<div class="pair-image-label animated">
+							<img src="/images/positive.png" alt="Positiva"> 
+							<p>Positiva</p>
+						</div>
+						<div class="pair-image-label animated">
+							<img src="/images/neutral.png" alt="Neutra">
+							<p>Neutra</p>
+						</div>
+						<div class="pair-image-label animated">
+							<img src="/images/negative.png" alt="Negativa">
+							<p>Negativa</p>
+						</div>
+					</div>
+				</div>		
+
+			</section>
 		</div>
 
 		<script src="/scripts/jquery-3.3.1.min.js"></script>

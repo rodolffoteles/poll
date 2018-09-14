@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
 	font-family: Open Sans, sans-serif;
 	font-size: 16px;
@@ -6,7 +10,7 @@ html {
 body, p{
 	padding: 0;
     margin: 0;
-	
+    
 }
 
 .page-wrap{
@@ -19,13 +23,46 @@ body, p{
 	justify-content: center;
 	align-items: center;
 	overflow-x: hidden;
-	max-width: 1400px;
 	width: 100%;
 	height: 100%;
-    background-image: linear-gradient(0deg,#ffffff,#f4f4f4);
+	background-image: linear-gradient(0deg,#ffffff,#f4f4f4);
 }
 
-.card-and-buttons{
+.top {
+	position: absolute;
+	top: 20px;
+	box-sizing: border-box;
+	width: 90%;
+	margin-bottom: 10px;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.none {
+	display: none;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+#tutorial-icon {
+	width: 30px;
+    height: 30px;
+    margin: 5px;
+}
+
+#arrow-icon {
+	width: 34px;
+    height: 34px;
+}
+
+#vote{
+    width: 100%;
+}
+
+.vote-container{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -56,6 +93,28 @@ body, p{
     transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
+.card p {
+	margin: auto;
+}
+
+.card::-webkit-scrollbar {
+    width: 7px;
+}
+
+.card::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    visibility: hidden;
+}
+ 
+.card::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+.card::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
 .right-inactive {
 	transform: translateX(130%); 
 	opacity: 0;
@@ -71,11 +130,11 @@ body, p{
 	opacity: 1;
 }
 
-
 .instructions{
 	color: #a7a7a7;
 	margin-top: 40px;
 	margin-bottom: 10px;
+	text-align: center;
 }
 
 .buttons-container{
@@ -89,9 +148,100 @@ body, p{
 }
 
 .button{
-    width: 50px;
-    height: 50px;
-    margin: 0 5px;
+    width: 55px;
+    height: 55px;
+    margin: 0 10px;
     cursor: pointer;
 }
 
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .button{
+    width: 65px;
+    height: 65px;
+   }
+}
+  
+@media (min-width: 768px) and (max-width: 1024px) {
+.button{
+    width: 65px;
+    height: 65px;
+   }
+}
+
+.tutorial-container{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.tutorial-text{
+	max-width: 700px;
+	width: 100%;
+	text-align: justify;
+}
+
+.tutorial-images{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.fadeInUp {
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+
+.pair-image-label {
+	box-sizing: border-box;
+	margin-top: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.pair-image-label img {
+    width: 50px;
+    height: 50px;
+}
+
+.pair-image-label p {
+    margin-left: 20px;
+}

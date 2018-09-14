@@ -4,6 +4,7 @@ const url = require('url');
 const body_parser = require('body-parser');
 const validator = require('express-validator');
 const config = require('./config/default');
+const query = require('./lib/query');
 
 const app = express();
 
@@ -15,5 +16,6 @@ app.use(validator());
 
 app.use('/', require('./routers/index'));
 
-app.listen(config.port);
+query.updateTables(() => {app.listen(config.port)});
+
 
