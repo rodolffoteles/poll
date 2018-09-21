@@ -1,27 +1,33 @@
 $(function(){
-	$('.buttons-container input.button').on('click', inputHandler);
+	loader();
 
-	$(document).ajaxError(function(){
-    	alert("An error occurred!");
-	});
+	function loader(){
+		setTimeout(() => {
+			$('#vote').removeClass('none');
+			$('.spinner').remove();
+			linkListeners();
+			}, 1500)
+	}
 
 	var $voteSection = $('#vote');
 	var $tutorialSection = $('#tutorial');
-	var $arrowIcon = $('#arrow-icon');
-	var $tutorialIcon = $('#tutorial-icon');
 
-	$tutorialIcon.on('click', showTutorial);
-	$arrowIcon.on('click', showVote);
+	function linkListeners(){
+		$('.buttons-container input.button').on('click', inputHandler);
+		$('.help-button').on('click', showTutorial);
+		$('.vote-button').on('click', showVote);
+	}
 
 	function inputHandler(){
 		var $fisrtCard = $('.card:nth-child(1)');
 		var $secondCard = $('.card:nth-child(2)');
 
 		var id = $fisrtCard.children('input').attr('value').toString();
+		var token = $('meta[name="csrf-token"]').attr('content');
 		var note = $(this).val().toString();
 
 		switchCards($fisrtCard, $secondCard);
-		submitVote(note, id);	
+		submitVote(note, id, token);	
 	}
 
 	function switchCards($fisrtCard, $secondCard){
@@ -39,10 +45,11 @@ $(function(){
 		$(this).remove();
 	}
 
-	function submitVote(score, id){
+	function submitVote(score, id, csrf){
 		$.post('vote', {
 			note: score,
-			sentenceId: id
+			sentenceId: id,
+			_csrf: csrf
 		}, createNewCard);
 	}
 
@@ -63,15 +70,11 @@ $(function(){
 	}
 
 	function showTutorial(){
-		$arrowIcon.removeClass('hidden');
-		$tutorialIcon.addClass('hidden');
 		$tutorialSection.removeClass('none');
 		$voteSection.addClass('none');	
 	}
 
 	function showVote(){
-		$arrowIcon.addClass('hidden');
-		$tutorialIcon.removeClass('hidden');
 		$tutorialSection.addClass('none');
 		$voteSection.removeClass('none');	
 	}

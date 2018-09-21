@@ -1,70 +1,93 @@
 <!DOCTYPE html>
 <head>
-	<title>Ágora</title>
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" type="image/png" href="/images/semi-positive2.png">
-	<meta name="description" content="Enquete online para ajudar um projeto de pesquisa na contrução de um banco de dados com sentimento de frases.">
+    <title>Poll</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <meta name="description" content="Enquete online para ajudar um projeto de pesquisa na contrução de um banco de dados com sentimento de frases.">
+    <meta name="csrf-token" content="<%= token %>">
 </head>
 
 <html>
-	<body>
-		<div class="page-wrap">
-			<div class="top">
-				<input type="image" src="/images/arrow.png" id="arrow-icon" class="hidden">
-				<input type="image" src="/images/question-mark.png" id="tutorial-icon">
-			</div>
+    <body>
+        <nav class="nav">
+          <div class="nav-header">
+            <div class="nav-title vote-button">
+                Poll
+            </div>
+          </div>
+          <div class="nav-btn">
+            <div class="nav-check help-button">
+              <img src="/images/question-mark-white.png">
+            </div>
+          </div>
 
-			<section id="vote">
-				<div class="vote-container">
-					<div class="card-container">
-						<div class="card active">
-							<p><%= firstSentence %></p>
-							<input type="hidden" name="sentenceId" value="<%= firstId %>">
-						</div>
+          <ul class="nav-links">
+            <li class="help-button">Ajuda</li>
+          </ul>
+        </nav>
 
-						<div class="card right-inactive">
-							<p><%= secondSentence %></p>
-							<input type="hidden" name="sentenceId" value="<%= secondId %>">
-						</div>
-					</div>
+        <div class="page-wrap">
+            <div class="spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
 
-					<p class="instructions"> Selecione o nível de sentimento dessa frase</p>
+            <section class="none animate-bottoms" id="vote">
+                <div class="vote-container">
+                    <div class="card-container">
+                        <div class="card active">
+                            <p><%= firstSentence %></p>
+                            <input type="hidden" name="sentenceId" value="<%= firstId %>">
+                        </div>
 
-					<div class="buttons-container">		
-						<input type="image" src="/images/semi-positive2.png" alt="Positiva" title="Positiva" class="button" value="1">
-						<input type="image" src="/images/neutral3.png" alt="Neutra" title="Neutra" class="button" value="0">
-						<input type="image" src="/images/semi-negative2.png" alt="Negativa" title="Negativa" class="button" value="-1">	
-					</div>
-				</div>
-			</section>
+                        <div class="card right-inactive">
+                            <p><%= secondSentence %></p>
+                            <input type="hidden" name="sentenceId" value="<%= secondId %>">
+                        </div>
+                    </div>
 
-			<section class="none" id="tutorial">
-				<div class="tutorial-container">
-					<div class="tutorial-text">
-						<p>Cada cartão contém uma frase que deverá ser classificada segundo as cinco opções abaixo. Tente identificar nela os elementos que costumam indicar o posicionamento do autor, como adjetivos.</p>
-					</div>
+                    <p class="instructions"> Selecione o nível de sentimento dessa frase</p>
 
-					<div class="tutorial-images">
-						<div class="pair-image-label animated">
-							<img src="/images/positive.png" alt="Positiva"> 
-							<p>Positiva</p>
-						</div>
-						<div class="pair-image-label animated">
-							<img src="/images/neutral.png" alt="Neutra">
-							<p>Neutra</p>
-						</div>
-						<div class="pair-image-label animated">
-							<img src="/images/negative.png" alt="Negativa">
-							<p>Negativa</p>
-						</div>
-					</div>
-				</div>		
+                    <div class="buttons-container">     
+                        <input type="image" src="/images/positive.png" alt="Positiva" title="Positiva" class="button" value="1">
+                        <input type="image" src="/images/neutral.png" alt="Neutra" title="Neutra" class="button" value="0">
+                        <input type="image" src="/images/negative.png" alt="Negativa" title="Negativa" class="button" value="-1">   
+                    </div>
+                </div>
+            </section>
 
-			</section>
-		</div>
+            <section class="none" id="tutorial">
+                <div class="tutorial-container">
+                    <div class="tutorial-text">
+                        <p>Cada cartão contém uma frase que deverá ser classificada segundo as três opções abaixo. Tente identificar nela os elementos que costumam indicar o posicionamento do autor, como adjetivos.</p>
+                    </div>
 
-		<script src="/scripts/jquery-3.3.1.min.js"></script>
-		<script src="/scripts/animate.js"></script>
-	</body>
+                    <div class="tutorial-images">
+                        <div class="pair-image-label animated">
+                            <img src="/images/positive.png" alt="Positiva"> 
+                            <p>Positiva</p>
+                        </div>
+                        <div class="pair-image-label animated">
+                            <img src="/images/neutral.png" alt="Neutra">
+                            <p>Neutra</p>
+                        </div>
+                        <div class="pair-image-label animated">
+                            <img src="/images/negative.png" alt="Negativa">
+                            <p>Negativa</p>
+                        </div>
+                    </div>
+
+                    <div class="vote-button-container">
+                        <button class="back-vote-button vote-button">Voltar</button>
+                    </div>
+                </div>      
+
+            </section>
+        </div>
+
+        <script src="/scripts/jquery-3.3.1.min.js"></script>
+        <script src="/scripts/animate.js"></script>
+    </body>
 </html>

@@ -1,6 +1,5 @@
 const query = require('../lib/query');
 const { check, validationResult } = require('express-validator/check');
-const { sanitize } = require('express-validator/filter');
 const express = require('express');
 const router = express.Router();
 
@@ -11,7 +10,8 @@ router.get('/', async (req, res) => {
         firstSentence: row[0].Sentence, 
         firstId: row[0].Id,
         secondSentence: row[1].Sentence, 
-        secondId: row[1].Id
+        secondId: row[1].Id,
+        token: req.csrfToken()
     });
 });
 
