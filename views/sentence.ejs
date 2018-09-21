@@ -48,13 +48,22 @@
                         </div>
                     </div>
 
-                    <p class="instructions"> Selecione o nível de sentimento dessa frase</p>
+                    <p class="instructions"> 
+                        Selecione o nível de sentimento dessa frase
+                    </p>
 
                     <div class="buttons-container">     
                         <input type="image" src="/images/positive.png" alt="Positiva" title="Positiva" class="button" value="1">
                         <input type="image" src="/images/neutral.png" alt="Neutra" title="Neutra" class="button" value="0">
                         <input type="image" src="/images/negative.png" alt="Negativa" title="Negativa" class="button" value="-1">   
                     </div>
+
+                    <p class="vote-count">
+                        Total = <%= totalCount %> <br>
+                        Negativos = <%= negativeCount %>, 
+                        Neutros = <%= neutralCount %>,  
+                        Positivos = <%= positiveCount %> 
+                    </p>
                 </div>
             </section>
 
@@ -83,7 +92,6 @@
                         <button class="back-vote-button vote-button">Voltar</button>
                     </div>
                 </div>      
-
             </section>
         </div>
 

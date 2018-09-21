@@ -19,7 +19,8 @@ app.use(validator());
 
 app.use('/', require('./routers/index'));
 
-query.loadTables(() => {app.listen(config.port)});
+//query.loadTables(() => {app.listen(config.port)});
+app.listen(config.port)
 
 
 
