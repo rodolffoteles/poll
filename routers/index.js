@@ -4,8 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    //let row = await query.getSentenceByMagnitude(2);
-    let row = await query.getSentenceAleatory(2);
+    let row = await query.getSentenceByMagnitude(2);
     let count = await query.getVoteCount();
 
     res.render('sentence', {
@@ -27,8 +26,7 @@ router.post('/vote', [
     ], async (req, res) => {
         const errors = validationResult(req);
 
-        //let row = await query.getSentenceByMagnitude(1); 
-        let row = await query.getSentenceAleatory(1);
+        let row = await query.getSentenceByMagnitude(1); 
         res.send(row[0]);
 
         if (errors.isEmpty()) {
