@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const config = require('./config/default');
 const query = require('./lib/query');
 
+console.log('starting express...');
 const app = express();
 
 app.set('view engine', 'ejs');
