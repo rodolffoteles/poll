@@ -4,33 +4,28 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    let row = await query.getSentenceByMagnitude(2);
-    let count = await query.getVoteCount();
+    let rows = await query.getSentenceByMagnitude(2);
+    let count = await query.getVoteCount()
 
     res.render('sentence', {
-        firstSentence: row[0].Sentence, 
-        firstId: row[0].Id,
-        secondSentence: row[1].Sentence, 
-        secondId: row[1].Id,
+        sentences: rows,
         token: req.csrfToken(),
-        totalCount: count.total,
-        negativeCount: count.negative,
-        neutralCount: count.neutral,
-        positiveCount: count.positive
+        count: count
     });
 });
 
 router.post('/vote', [
         check('sentenceId').isInt(),
+        check('sentenceIndex').isInt(),
         check('note').isInt({ min: -1, max: 1 })
-    ], async (req, res) => {
+    ], (req, res) => {
         const errors = validationResult(req);
 
-        let row = await query.getSentenceByMagnitude(1); 
-        res.send(row[0]);
+        let row = query.getSentenceByMagnitude(1); 
+        res.send(row);
 
         if (errors.isEmpty()) {
-            query.insertVote(req.body.sentenceId, req.body.note);
+            query.insertVote(req.body.sentenceId, req.body.sentenceIndex, req.body.note);
         }
 });
 

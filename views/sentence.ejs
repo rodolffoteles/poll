@@ -37,15 +37,13 @@
             <section class="none animate-bottoms" id="vote">
                 <div class="vote-container">
                     <div class="card-container">
-                        <div class="card active">
-                            <p><%= firstSentence %></p>
-                            <input type="hidden" name="sentenceId" value="<%= firstId %>">
+                        <% for(let i=0; i < sentences.length; i++) { %>
+                        <div class="card <%= i == 0 ? "active" : "right-inactive" %>">
+                            <p><%= sentences[i].Sentence %></p>
+                            <input type="hidden" name="sentenceIndex" value="<%= sentences[i].Index %>">
+                            <input type="hidden" name="sentenceId" value="<%= sentences[i].SentenceId %>">
                         </div>
-
-                        <div class="card right-inactive">
-                            <p><%= secondSentence %></p>
-                            <input type="hidden" name="sentenceId" value="<%= secondId %>">
-                        </div>
+                        <% } %>
                     </div>
 
                     <p class="instructions"> 
@@ -59,10 +57,10 @@
                     </div>
 
                     <p class="vote-count">
-                        Total = <%= totalCount %> <br>
-                        Negativos = <%= negativeCount %>, 
-                        Neutros = <%= neutralCount %>,  
-                        Positivos = <%= positiveCount %> 
+                        Total = <%= count.total %> <br>
+                        Positivos = <%= count.positive %>,
+                        Neutros = <%= count.neutral %>,  
+                        Negativos = <%= count.negative %>
                     </p>
                 </div>
             </section>

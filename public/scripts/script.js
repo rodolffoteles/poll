@@ -1,112 +1,122 @@
 $(function(){
-	loader();
+    loader();
 
-	function loader(){
-		setTimeout(() => {
-			$('#vote').removeClass('none');
-			$('.spinner').remove();
-			linkListeners();
-			}, 1500)
-	}
+    function loader(){
+        setTimeout(() => {
+                $('#vote').removeClass('none');
+                $('.spinner').remove();
+                linkListeners();
+                getInitialCount();
+            }, 1500)
+    }
 
-	var $voteSection = $('#vote');
-	var $tutorialSection = $('#tutorial');
+    var $voteSection = $('#vote');
+    var $tutorialSection = $('#tutorial');
+    var $voteCount = $('.vote-count');
+    var totalCount, negativeCount, neutralCount, negativeCount;
 
-	function linkListeners(){
-		$('.buttons-container input.button').on('click', inputHandler);
-		$('.help-button').on('click', showTutorial);
-		$('.vote-button').on('click', showVote);
-	}
+    function linkListeners(){
+        $('.buttons-container input.button').on('click', inputHandler);
+        $('.help-button').on('click', showTutorial);
+        $('.vote-button').on('click', showVote);
+    }
 
-	function inputHandler(){
-		var $fisrtCard = $('.card:nth-child(1)');
-		var $secondCard = $('.card:nth-child(2)');
+    function inputHandler(){
+        var $fisrtCard = $('.card:nth-child(1)');
+        var $secondCard = $('.card:nth-child(2)');
 
-		var id = $fisrtCard.children('input').attr('value').toString();
-		var token = $('meta[name="csrf-token"]').attr('content');
-		var note = $(this).val().toString();
+        var id = $fisrtCard.children('input[name="sentenceId"]').val().toString();
+        var index = $fisrtCard.children('input[name="sentenceIndex"]').val().toString();
+        var token = $('meta[name="csrf-token"]').attr('content');
+        var note = $(this).val().toString();
 
-		switchCards($fisrtCard, $secondCard);
-		submitVote(note, id, token);	
-	}
+        switchCards($fisrtCard, $secondCard);
+        submitVote(note, id, index, token);    
+    }
 
-	function switchCards($fisrtCard, $secondCard){
-		$fisrtCard
-			.removeClass('active')
-			.addClass('left-inactive')
-			.on("transitionend MSTransitionEnd webkitTransitionEnd oTransitionEnd", removeCard);
+    function switchCards($fisrtCard, $secondCard){
+        $fisrtCard
+            .removeClass('active')
+            .addClass('left-inactive')
+            .on("transitionend MSTransitionEnd webkitTransitionEnd oTransitionEnd", removeCard);
 
-		$secondCard
-			.removeClass('right-inactive')
-			.addClass('active');
-	}
+        $secondCard
+            .removeClass('right-inactive')
+            .addClass('active');
+    }
 
-	function removeCard(){
-		$(this).remove();
-	}
+    function removeCard(){
+        $(this).remove();
+    }
 
-	function submitVote(score, id, csrf){
-		$.post('vote', {
-			note: score,
-			sentenceId: id,
-			_csrf: csrf
-		}, createNewCard);
+    function submitVote(score, id, index, csrf){
+        $.post('vote', {
+            note: score,
+            sentenceId: id,
+            sentenceIndex: index,
+            _csrf: csrf
+        }, createNewCards);
 
-		updateCount(score);
-	}
+        updateCount(score);
+    }
 
-	function updateCount(score){
-		score = parseInt(score);
-		let $voteCount = $('.vote-count');
+    function createNewCards(rows){
+        rows.forEach((data) => {
+            var $newCard = $('<div></div>');
 
-		let currentCount = $voteCount.text()
-									.replace(/[^0-9\s]/g, '')
-									.split(' ')
-									.filter(Number);
+            $newCard
+                .addClass('card right-inactive')
+                .append($('<p></p>').text(
+                    data.Sentence))
+                .append($('<input>').attr({
+                    type: 'hidden',
+                    name: 'sentenceIndex',
+                    value: data.Index
+                }))
+                .append($('<input>').attr({
+                    type: 'hidden',
+                    name: 'sentenceId',
+                    value: data.SentenceId
+                }));
+                
+            $('.card-container').append($newCard);
+        })  
+    }
 
-		let totalCount = parseInt(currentCount[0]) + 1;
-        let negativeCount = parseInt(currentCount[1])
-        let neutralCount = parseInt(currentCount[2])
-        let positiveCount = parseInt(currentCount[3])
+    function getInitialCount(){
+        var currentCount = $voteCount.text()
+                                .replace(/[^0-9\s]/g, '')
+                                .split(' ')
+                                .filter(Number);
 
-		switch(score){
-			case 1: positiveCount++; break;
-			case 0: neutralCount++; break; 
-			case -1: negativeCount++; break;
-		}
+        totalCount = parseInt(currentCount[0]);
+        negativeCount = parseInt(currentCount[1])
+        neutralCount = parseInt(currentCount[2])
+        positiveCount = parseInt(currentCount[3])
+    }
 
-		$voteCount.html(
-			'Total: ' + totalCount
-			+ '<br>Negativos: ' + negativeCount  
-			+ ', Neutros:' + neutralCount 
-			+ ', Positivos: ' + positiveCount 
-			)
-	}
+    function updateCount(score){
+        score = parseInt(score);
 
-	function createNewCard(data){
-		var $newCard = $('<div></div>');
+        totalCount++;
+        switch(score){
+            case 1: positiveCount++; break;
+            case 0: neutralCount++; break; 
+            case -1: negativeCount++; break;
+        }
 
-		$newCard
-			.addClass('card right-inactive')
-			.append($('<p></p>').text(
-				data.Sentence))
-			.append($('<input>').attr({
-			    type: 'hidden',
-			    name: 'sentenceId',
-			    value: data.Id
-			}));
-			
-		$('.card-container').append($newCard);
-	}
+        $voteCount.html(`Total: ${totalCount}<br> Positivos: ${positiveCount},
+                         Neutros: ${neutralCount}, Negativos: ${negativeCount}`);
+    }
 
-	function showTutorial(){
-		$tutorialSection.removeClass('none');
-		$voteSection.addClass('none');	
-	}
+    function showTutorial(){
+        $tutorialSection.removeClass('none');
+        $voteSection.addClass('none');  
+    }
 
-	function showVote(){
-		$tutorialSection.addClass('none');
-		$voteSection.removeClass('none');	
-	}
+    function showVote(){
+        $tutorialSection.addClass('none');
+        $voteSection.removeClass('none');   
+    }
 
 });

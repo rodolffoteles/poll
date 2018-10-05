@@ -1,7 +1,7 @@
 # Poll 
 Node.js app created to make a database with sentiment of portuguese sentences through an online poll.
 
-## Get started 
+## Running locally 
 
 ### MySql
 - Install [mysql](https://www.mysql.com/).
