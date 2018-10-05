@@ -25,8 +25,8 @@ $(function(){
         var $fisrtCard = $('.card:nth-child(1)');
         var $secondCard = $('.card:nth-child(2)');
 
-        var id = $fisrtCard.children('input[name="sentenceId"]').val().toString();
-        var index = $fisrtCard.children('input[name="sentenceIndex"]').val().toString();
+        var id = $fisrtCard.children('input[name="sentenceId"]').val();
+        var index = $fisrtCard.children('input[name="sentenceIndex"]').val();
         var token = $('meta[name="csrf-token"]').attr('content');
         var note = $(this).val().toString();
 
