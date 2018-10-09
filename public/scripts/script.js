@@ -90,9 +90,9 @@ $(function(){
                                 .filter(Number);
 
         totalCount = parseInt(currentCount[0]);
-        negativeCount = parseInt(currentCount[1])
+        positiveCount = parseInt(currentCount[1])
         neutralCount = parseInt(currentCount[2])
-        positiveCount = parseInt(currentCount[3])
+        negativeCount = parseInt(currentCount[3])
     }
 
     function updateCount(score){
