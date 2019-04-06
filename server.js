@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const validator = require('express-validator');
 const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
-const config = require('./config/default');
 const query = require('./lib/query');
 
 console.log('starting express...');
@@ -21,9 +20,6 @@ app.use(validator());
 app.use('/', require('./routers/index'));
 
 query.loadTable().then(() => {
-    app.listen(config.port)
+    app.listen(process.env.PORT)
     console.log('listening...')
 })
-
-
-

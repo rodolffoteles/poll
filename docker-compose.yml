@@ -1,15 +1,23 @@
 version: '3'
-  services:
-    app:
-      cotainer-name: node
-      restart: always
-      build: .
-      ports:
-        - '80:8080'
-      links:
-        - db
-    db:
-      conatiner-name: db-mysql
-      build: /db
-      ports:
-        - ''
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - '8080:8080'
+    environment:
+      - PORT=8080
+      - DB=mapa_pressao-01
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=123456
+      - DB_PORT=3360
+    depends_on:
+      - db
+  db:
+    build: ./db
+    ports:
+      - '3360:3360'
+    environment:
+      - MYSQL_DATABASE=mapa_pressao-01
+      - MYSQL_ROOT_PASSWORD=123456
