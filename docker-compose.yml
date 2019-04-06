@@ -1,0 +1,15 @@
+version: '3'
+  services:
+    app:
+      cotainer-name: node
+      restart: always
+      build: .
+      ports:
+        - '80:8080'
+      links:
+        - db
+    db:
+      conatiner-name: db-mysql
+      build: /db
+      ports:
+        - ''
