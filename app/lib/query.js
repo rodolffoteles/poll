@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const config = require('../config/default');
 
 const minMagnitude = 50;
 const maxVoteCount = 5;
@@ -7,11 +8,11 @@ var activeSentences = new Array(activeSentenceCount);
 var sentencesMagitude;
 
 const pool = mysql.createPool({
-    database    : process.env.DB,
-    host        : process.env.DB_HOST,
-    port        : process.env.DB_PORT,
-    user        : process.env.DB_USER,
-    password    : process.env.DB_PASSWORD
+    user        : config.database.USERNAME,
+    password    : config.database.PASSWORD,
+    database    : config.database.DATABASE,
+    host        : config.database.HOST,
+    port        : config.database.PORT
 });
 
 function getAleatoryNumber(min, max){
@@ -62,7 +63,7 @@ function newActiveSentence(index){
 
     let sentence = sentencesMagitude.pop();
     sentence.index = index;
-    sentence.count = (sentence.count == null) ? 0 : sentence.count
+    sentence.count = (sentence.count == null) ? 0 : sentence.count;
     activeSentences[index] = sentence;
 }
 

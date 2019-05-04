@@ -4,11 +4,11 @@ Node.js app created to make a database with sentiment of portuguese sentences th
 ## Running locally
 
 - Install [docker engine](https://docs.docker.com/install/) and [docker compose](https://docs.docker.com/compose/install/).
-- Run `docker compose up`
+- Run `docker-compose up`
 - Go to [localhost:8080](http://localhost:8080)
 
 ## Archictecture
-- `server.js`: main server file
+- `app.js`: server entry point
 - `/config`: stores the database connection credentials
 - `/lib`: module responsible for the database queries
 - `/public`: all the public assets, such as .css and .jpg files

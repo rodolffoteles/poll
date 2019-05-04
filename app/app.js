@@ -1,10 +1,10 @@
 const express = require('express');
-const url = require('url');
 const bodyParser = require('body-parser');
 const validator = require('express-validator');
 const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
 const query = require('./lib/query');
+const config = require('./config/default');
 
 console.log('starting express...');
 const app = express();
@@ -20,6 +20,6 @@ app.use(validator());
 app.use('/', require('./routers/index'));
 
 query.loadTable().then(() => {
-    app.listen(process.env.PORT)
+    app.listen(config.port)
     console.log('listening...')
 })
