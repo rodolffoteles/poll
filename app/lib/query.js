@@ -1,11 +1,14 @@
 const mysql = require('mysql');
 const config = require('../config/default');
 
-const minMagnitude = 50;
+// Max quantity of votes a sentence can receive
 const maxVoteCount = 5;
-const activeSentenceCount = 500;
+// Max quantity of sentences that are accumulating votes
+var activeSentenceCount = 500;
+// Array with all sentences that hasn't received enough votes
+var availableSentences;
+// Subset of available sentences that are currently being presented to users
 var activeSentences = new Array(activeSentenceCount);
-var sentencesMagitude;
 
 const pool = mysql.createPool({
     user        : config.database.USERNAME,
@@ -21,26 +24,21 @@ function getAleatoryNumber(min, max){
 
 function loadTable() {
     let selectJoin =
-                `SELECT sentence, sentence_per_new.id AS sentence_id, count
-                FROM new INNER JOIN
-                    (SELECT new_id, sentence.id, sentence, count
-                    FROM sentence LEFT JOIN
-                        (SELECT sentence_id, count(*) AS count FROM sentiment
-                        GROUP BY sentiment.sentence_id)
-                        AS sentence_per_vote
-                    ON sentence.id = sentence_per_vote.sentence_id
-                    WHERE count IS NULL OR count < ${maxVoteCount})
-                    AS sentence_per_new
-                ON new.id = sentence_per_new.new_id
-                WHERE overall_magnitude >= ${minMagnitude}`;
+                `SELECT sentence.id, sentence, count 
+                 FROM sentence LEFT JOIN
+                    (SELECT sentence_id, count(*) AS count FROM sentiment
+                    GROUP BY sentiment.sentence_id)
+                    AS sentence_per_vote
+                 ON sentence.id = sentence_per_vote.sentence_id
+                 WHERE count IS NULL OR count < ${maxVoteCount}`;
 
     return new Promise((resolve, reject) => {
         pool.query(selectJoin, (err, result) => {
             if (err) {
-              console.log(err);
-              reject(err);
+                console.log(err);
+                reject(err);
             } else {
-                sentencesMagitude = result;
+                availableSentences = result;
                 loadActiveSentences();
                 resolve(null);
             }
@@ -50,8 +48,15 @@ function loadTable() {
 
 function loadActiveSentences(){
     activeSentences = [];
-    for(let i=0; i < activeSentenceCount; i++){
-        let sentence = sentencesMagitude.pop();
+    for(let i = 0; i < activeSentenceCount; i++){
+        let sentence = availableSentences.pop();
+
+        // Update the quantity of active sentences if there's not enough available sentences
+        if(sentence == null){
+            activeSentenceCount = i;
+            break;
+        } 
+            
         sentence.index = i;
         sentence.count = (sentence.count == null) ? 0 : sentence.count
         activeSentences[i] = sentence;
@@ -61,16 +66,16 @@ function loadActiveSentences(){
 function newActiveSentence(index){
     delete activeSentences[index];
 
-    let sentence = sentencesMagitude.pop();
+    let sentence = availableSentences.pop();
     sentence.index = index;
     sentence.count = (sentence.count == null) ? 0 : sentence.count;
     activeSentences[index] = sentence;
 }
 
-function getSentenceByMagnitude(quant){
+function getSentence(quant){
     let aleatoryRow = [];
     for(let i = 0; i < quant; i++){
-        aleatoryIndex = getAleatoryNumber(0, activeSentences.length);
+        aleatoryIndex = getAleatoryNumber(0, activeSentenceCount);
         aleatoryRow.push(activeSentences[aleatoryIndex]);
     }
     return aleatoryRow;
@@ -78,7 +83,7 @@ function getSentenceByMagnitude(quant){
 
 
 function getVoteCount(){
-    let groupBy = 'SELECT sentiment, COUNT(*) AS count FROM sentiment GROUP BY sentiment';
+    let groupBy = 'SELECT sentiment, count(*) AS count FROM sentiment GROUP BY sentiment';
     let count = { total: 0, negative: 0, neutral: 0, positive: 0 };
 
     return new Promise((resolve, reject) => {
@@ -105,13 +110,13 @@ function getVoteCount(){
 
 function insertVote(id, index, note) {
     // Delete sentence from active sentences array if it has received enough votes
-    if( activeSentences[index].SentenceId == id &&
-        activeSentences[index].Count++ >= maxVoteCount) {
+    if( activeSentences[index].id == id &&
+        activeSentences[index].count++ >= maxVoteCount) {
         newActiveSentence(index);
     }
 
     let date = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    let insertQuery = `INSERT INTO sentiment(sencente_id, sentiment, created_at)
+    let insertQuery = `INSERT INTO sentiment(sentence_id, sentiment, created_at)
                        VALUES (${id}, ${note}, '${date}')`;
 
     pool.query(insertQuery, (err, result, fields) => {
@@ -121,7 +126,7 @@ function insertVote(id, index, note) {
 
 module.exports = {
     loadTable,
-    getSentenceByMagnitude,
+    getSentence,
     getVoteCount,
     insertVote
 }

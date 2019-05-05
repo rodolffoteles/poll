@@ -67,16 +67,16 @@ $(function(){
             $newCard
                 .addClass('card right-inactive')
                 .append($('<p></p>').text(
-                    data.Sentence))
+                    data.sentence))
                 .append($('<input>').attr({
                     type: 'hidden',
                     name: 'sentenceIndex',
-                    value: data.Index
+                    value: data.index
                 }))
                 .append($('<input>').attr({
                     type: 'hidden',
                     name: 'sentenceId',
-                    value: data.SentenceId
+                    value: data.id
                 }));
                 
             $('.card-container').append($newCard);
@@ -84,7 +84,8 @@ $(function(){
     }
 
     function getInitialCount(){
-        var currentCount = $voteCount.text()
+        var currentCount = $voteCount
+                                .text()
                                 .replace(/[^0-9\s]/g, '')
                                 .split(' ')
                                 .filter(Number);
