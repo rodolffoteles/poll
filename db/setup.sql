@@ -5,7 +5,7 @@ CREATE TABLE new (
   author VARCHAR(100),
   body TEXT,
   source VARCHAR(20),
-  url TEXT,
+  url VARCHAR(200),
   created_at VARCHAR(40),
   overall_sentiment FLOAT,
   overall_magnitude FLOAT

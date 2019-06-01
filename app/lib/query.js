@@ -3,19 +3,20 @@ const config = require('../config/default');
 
 // Max quantity of votes a sentence can receive
 const maxVoteCount = 5;
-// Max quantity of sentences that are accumulating votes
+// Max quantity of sentences that are accumulating votes at one time
 var activeSentenceCount = 500;
 // Array with all sentences that hasn't received enough votes
-var availableSentences;
+var availableSentences = [];
 // Subset of available sentences that are currently being presented to users
 var activeSentences = new Array(activeSentenceCount);
 
 const pool = mysql.createPool({
-    user        : config.database.USERNAME,
-    password    : config.database.PASSWORD,
-    database    : config.database.DATABASE,
-    host        : config.database.HOST,
-    port        : config.database.PORT
+    user     : config.database.USERNAME,
+    password : config.database.PASSWORD,
+    database : config.database.DATABASE,
+    host     : config.database.HOST,
+    port     : config.database.PORT,
+    charset  : config.database.CHARTSET
 });
 
 function getAleatoryNumber(min, max){
@@ -35,7 +36,6 @@ function loadTable() {
     return new Promise((resolve, reject) => {
         pool.query(selectJoin, (err, result) => {
             if (err) {
-                console.log(err);
                 reject(err);
             } else {
                 availableSentences = result;
@@ -47,7 +47,6 @@ function loadTable() {
 }
 
 function loadActiveSentences(){
-    activeSentences = [];
     for(let i = 0; i < activeSentenceCount; i++){
         let sentence = availableSentences.pop();
 
@@ -81,7 +80,6 @@ function getSentence(quant){
     return aleatoryRow;
 }
 
-
 function getVoteCount(){
     let groupBy = 'SELECT sentiment, count(*) AS count FROM sentiment GROUP BY sentiment';
     let count = { total: 0, negative: 0, neutral: 0, positive: 0 };
@@ -91,13 +89,13 @@ function getVoteCount(){
             result.forEach((value) => {
                 switch(value.sentiment){
                     case 1:
-                        count.positive = value.count;
+                        count.positive = (value.count == null) ? 0 : value.count;
                         break;
                     case 0:
-                        count.neutral = value.count;
+                        count.neutral = (value.count == null) ? 0 : value.count;
                         break;
                     case -1:
-                        count.negative = value.count;
+                        count.negative = (value.count == null) ? 0 : value.count;
                         break;
                 }
             });
@@ -120,7 +118,7 @@ function insertVote(id, index, note) {
                        VALUES (${id}, ${note}, '${date}')`;
 
     pool.query(insertQuery, (err, result, fields) => {
-        if (err) throw err;
+        if(err) throw err;
     });
 }
 

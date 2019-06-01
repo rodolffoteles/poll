@@ -23,5 +23,5 @@
     "util": "^0.11.0"
   },
   "devDependencies": {},
-  "description": "Webapp used to create a database with sentiment of portuguese sentences"
+  "description": "Webapp used to collect sentiment data of portuguese sentences"
 }
