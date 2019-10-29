@@ -1,0 +1,2 @@
+setup.sql linguist-vendored
+wait-for-it.sh linguist-vendored
